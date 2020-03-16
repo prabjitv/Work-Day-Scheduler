@@ -32,7 +32,16 @@
       <tbody>
         <tr>
           <th>0600h</th>
-          <td><em>enter in schedule</em></td>
+          <td>
+            <em>enter in schedule</em>
+            <!-- <form class="form-inline">
+              <div class="form-group mx-sm-3 mb-2">
+                <label for="inputPassword2" class="sr-only">enter event</label>
+                <input type="text" class="form-control" id="inputEvent" placeholder="enter event">
+              </div>
+              <button type="submit" class="btn btn-primary mb-2">✔</button>
+            </form> -->
+          </td>
           <th>✅</th>
         </tr>
         <tr>
@@ -116,32 +125,48 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script>
-    var m = moment();
+    var todayMoment = moment().local();
 
     var hour = (moment().hour());
     // $("(hour + "00");
 
-    $("#currentDay").text(m);
-    console.log(m.toString());
+    $("#currentDay").text(todayMoment);
+    var a = moment.utc([2011, 0, 1, 8]);
+    a.hours(); // 8 UTC
+    console.log(a);
+    a.local();
+    console.log(a);
+    a.hours(); // 0 PST
+    console.log(moment().hour());
+    console.log(a);
 
-    function enterEvent() {
-      <form class="form-inline">
-        <div class="form-group mb-2">
-          <label for="staticEmail2" class="sr-only">Email</label>
-          <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com">
-        </div>
-        <div class="form-group mx-sm-3 mb-2">
-            <label for="inputPassword2" class="sr-only">Password</label>
-            <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
-        </div>
-            <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
-</form>    }
+    var enterEvent = "";
 
     $("td").on("click", function (event) {
-            event.preventDefault();
-      $(this).text(enterEvent());
-    })
 
+      if (event) {
+
+        if (enterEvent === "") {
+          enterEvent = prompt("Please enter your event:");
+          $(this).text(enterEvent);
+          $(this).next().text("✔");
+        }
+        else if (enterEvent !== "") {
+          var confirmOverwrite = confirm("Overwrite Past Event Entry?");
+          if (confirmOverwrite == true) {
+            enterEvent = prompt("Please enter your event:");
+            $(this).text(enterEvent);
+            $(this).next().text("✔");
+          }
+          else {
+          };
+        };
+      };
+    });
+
+    if (moment().hour() < 22) {
+      $("tr").css("background-color", "beige");
+    }
 
 
 
