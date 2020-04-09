@@ -1,41 +1,47 @@
-// showing current date
+var currentTime = moment().format('HH:mm'); 
+var workHours = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
+var workHoursMil = [9, 10, 11, 12, 13, 14, 15, 16, 17]; 
+var schedule;
+var saveBtn;
+var activityInput;
 
-var dateToday = moment();
-var date = document.getElementById("currentDay");
-date.innerHTML = dateToday.format("dddd, MMMM Do YYYY");
+document.getElementById('currentDay').innerHTML = "Current time: " + moment().format('LT') + " MST"; 
+    
+    if (JSON.parse(window.localStorage.getItem("schedule")) == null) { 
+      schedule = ["","","","","","","","",""];
+    }
+    else if (JSON.parse(window.localStorage.getItem("schedule")) != null) {
+      schedule = JSON.parse(window.localStorage.getItem("schedule")); 
+    }
 
+    for (var i = 0; i < 9; i++) { 
+      var hourRow = $("<tr>").appendTo("table");
+      var hour = $("<td>").text(workHours[i]).appendTo(hourRow); 
 
+      activityInput = $("<input/>").attr({ type: "text", class: "activity" }).appendTo(hourRow).attr({ "data-input": i }); 
 
-// when event field clicked
-$("td").on("click", function (event) {
+      $(".activity[data-input=" + i + "]").attr("value", schedule[i]); 
 
-  // enterEvent = prompt("Please enter your event:");
-  var event9 = document.getElementById("event9").textContent;
-  localStorage.setItem("#event9", event9);
-  var event10 = document.getElementById("event10").value;
-  localStorage.setItem("#event10", event10);
-  var event11 = document.getElementById("event11").value;
-  localStorage.setItem("#event11", event11);
-  var event12 = document.getElementById("event12").value;
-  localStorage.setItem("#event12", event12);
-  var event13 = document.getElementById("event13").value;
-  localStorage.setItem("#event13", event13);
-  var event14 = document.getElementById("event14").value;
-  localStorage.setItem("#event14", event14);
-  var event15 = document.getElementById("event15").value;
-  localStorage.setItem("#event15", event15);
-  var event16 = document.getElementById("event16").value;
-  localStorage.setItem("#event16", event16);
-  var event17 = document.getElementById("event17").value;
-  localStorage.setItem("#event17", event17);
+      saveBtn = $("<button id=save class=submitBtn>Save</button>").appendTo(hourRow).attr("data-time", i); 
 
-  // $(this).prev
-});
+      if (parseInt(currentTime) < workHoursMil[i]) {
+        $(".activity[data-input=" + i + "]").css("background-color", "lightgreen");
+      }
 
-// for (var i = 0; i < 15; i++) {
-// }
-// hourTesting = 
-//   if (moment().hour() < ) {
-//       $("tr").css("background-color", "beige");
-//     }
+      if (parseInt(currentTime) === workHoursMil[i]) {
+        $(".activity[data-input=" + i + "]").css("background-color", "grey");
+      }
+
+      if (parseInt(currentTime) > workHoursMil[i]) {
+        $(".activity[data-input=" + i + "]").css("background-color", "salmon");
+      }
+    }
+
+    $(".submitBtn").on("click", function () { 
+      var hourChoice = $(this).data("time"); 
+      schedule[hourChoice] = ($(".activity[data-input=" + hourChoice + "]").val());
+      window.localStorage.setItem("schedule", JSON.stringify(schedule));
+      console.log(schedule);
+    }); 
+
 
