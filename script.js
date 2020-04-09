@@ -1,6 +1,6 @@
 var currentTime = moment().format('HH:mm'); 
 var workhrs = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
-var workhrsMil = [9, 10, 11, 12, 13, 14, 15, 16, 17]; 
+var workhrsNum = [9, 10, 11, 12, 13, 14, 15, 16, 17]; 
 var event;
 var save;
 var eventInput;
@@ -24,15 +24,15 @@ document.getElementById('currentDay').innerHTML = "Current time: " + moment().fo
 
       save = $("<button id=save class=submitBtn>Save</button>").appendTo(hourRow).attr("data-time", i); 
 
-      if (parseInt(currentTime) < workhrsMil[i]) {
+      if (parseInt(currentTime) < workhrsNum[i]) {
         $(".activity[data-input=" + i + "]").css("background-color", "lightgreen");
       }
 
-      if (parseInt(currentTime) === workhrsMil[i]) {
+      if (parseInt(currentTime) === workhrsNum[i]) {
         $(".activity[data-input=" + i + "]").css("background-color", "grey");
       }
 
-      if (parseInt(currentTime) > workhrsMil[i]) {
+      if (parseInt(currentTime) > workhrsNum[i]) {
         $(".activity[data-input=" + i + "]").css("background-color", "salmon");
       }
     }
